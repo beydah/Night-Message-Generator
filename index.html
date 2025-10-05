@@ -19,7 +19,7 @@
   <body class="min-h-screen flex flex-col antialiased">
     <!-- Header -->
     <header
-      class="sticky top-0 z-20 bg-card-bg/95 backdrop-blur-sm shadow-md transition-colors duration-300 border-b border-gray-200 dark:border-gray-700"
+      class="sticky top-0 z-20 header-enhanced shadow-md transition-colors duration-300 border-b border-gray-200 dark:border-gray-700"
     >
       <div class="max-w-4xl mx-auto p-4 flex justify-between items-center h-16">
         <!-- Logo (Centered using flex trickery) -->
@@ -54,13 +54,13 @@
     <!-- Overlay Menu -->
     <div
       id="overlay-menu"
-      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-35 hidden"
+      class="fixed inset-0 menu-overlay-enhanced z-35 hidden"
       onclick="toggleMenu()"
     ></div>
 
     <div
       id="side-menu"
-      class="fixed top-0 right-0 h-full w-64 bg-card-bg shadow-2xl p-6 z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-between"
+      class="fixed top-0 right-0 h-full w-64 menu-enhanced shadow-2xl p-6 z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-between"
     >
       <div>
         <div class="flex justify-between items-center mb-6">

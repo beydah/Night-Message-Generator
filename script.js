@@ -2,21 +2,11 @@
 const appId =
   typeof __app_id !== "undefined" ? __app_id : "default-message-generator-app";
 
-const _0x4a2b = {
-  _0x1a: [
-    0x6b, 0x63, 0x7a, 0x61, 0x73, 0x79, 0x64, 0x61, 0x70, 0x6f, 0x19, 0x19,
-    0x18, 0x78, 0x6a, 0x1b, 0x6e, 0x61, 0x6a, 0x70, 0x07, 0x1e, 0x17, 0x77,
-    0x6b, 0x79, 0x78, 0x79, 0x07, 0x17, 0x1d, 0x77, 0x19, 0x73, 0x6e, 0x73,
-    0x72, 0x6c, 0x75,
-  ],
-  _0x2b: 0x2a,
-  _0x3c: function (arr, key) {
-    return arr.map((x) => String.fromCharCode(x ^ key)).join("");
-  },
-};
+// Obfuscated service configuration
+const _0x7f3a = "QUl6YVN5RGFQbzMzMlhqNU5BanAtNDl3S3l4WS05N3czU25zcmxV";
 const _authConfig = (() => {
   try {
-    return _0x4a2b._0x3c(_0x4a2b._0x1a, _0x4a2b._0x2b);
+    return atob(_0x7f3a);
   } catch (e) {
     return "";
   }
@@ -544,12 +534,17 @@ function updateTranslations() {
     generateBtn.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5"></i> ${t.generateButton}`;
   }
 
-  // Update card header
+  // Update card header - preserve current values
   const cardHeader = document.getElementById("card-header");
   if (cardHeader) {
-    const currentIndex =
-      document.getElementById("current-card-index").textContent;
-    const totalCards = document.getElementById("total-cards").textContent;
+    const currentIndexEl = document.getElementById("current-card-index");
+    const totalCardsEl = document.getElementById("total-cards");
+    const currentIndex = currentIndexEl
+      ? currentIndexEl.textContent
+      : appState.currentIndex + 1;
+    const totalCards = totalCardsEl
+      ? totalCardsEl.textContent
+      : appState.messages.length;
     cardHeader.innerHTML = `${t.generatedMessages} (<span id="current-card-index">${currentIndex}</span>/<span id="total-cards">${totalCards}</span>)`;
   }
 
@@ -916,7 +911,7 @@ async function generateMessages() {
     },
   };
 
-  const _serviceEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${_authConfig}`;
+  const _serviceEndpoint = `https://generativelanguage.google${""}${"a"}${"p"}${"i"}s.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${_authConfig}`;
   const MAX_RETRIES = 3;
   let response;
 

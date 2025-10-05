@@ -88,3 +88,31 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+/* Header and Menu Enhanced Backgrounds */
+.header-enhanced {
+  background-color: rgba(var(--card-bg-rgb), 0.75) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}
+
+.menu-enhanced {
+  background-color: rgba(var(--card-bg-rgb), 0.75) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+}
+
+/* Add RGB versions of card-bg for rgba usage */
+:root {
+  --card-bg-rgb: 255, 255, 255; /* White RGB */
+}
+
+.dark {
+  --card-bg-rgb: 30, 41, 59; /* Slate-800 RGB */
+}
+
+/* Enhanced overlay for menu */
+.menu-overlay-enhanced {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}

@@ -1,7 +1,7 @@
 import { appState } from "./state.js";
 import { TRANSLATIONS } from "./i18n.js";
 import { LANG_DISPLAY } from "./config.js";
-import { generateMessages } from "./api.js";
+import { clearAllCookies } from "./utils.js";
 
 // --- UI Elements ---
 const getSideMenu = () => document.getElementById("side-menu");
@@ -9,8 +9,6 @@ const getOverlayMenu = () => document.getElementById("overlay-menu");
 const getThemeToggle = () => document.getElementById("theme-toggle");
 const getLangToggle = () => document.getElementById("lang-toggle");
 const getLowercaseToggle = () => document.getElementById("lowercase-toggle");
-// const getSettingsToggle = () => document.getElementById("settings-toggle");
-// const getSettingsContent = () => document.getElementById("settings-content");
 const getGenerateButton = () => document.getElementById("generate-button");
 const getCardCarousel = () => document.getElementById("card-carousel");
 const getCurrentCardIndexEl = () => document.getElementById("current-card-index");
@@ -240,11 +238,6 @@ function renderMessages() {
         cardWrapper.id = `msg-card-${index}`;
         const t = getTranslations();
 
-        // Using innerHTML here for the template, but text content is safely injected via string interpolation if 'text' was pure text.
-        // However, the original code used replace(/\n/g, "<br>") which implies HTML injection.
-        // We should be careful here. For now, maintaining original logic but wrapping in a container.
-        // Ideally, we'd construct elements.
-
         cardWrapper.innerHTML = `
                 <div class="bg-card-bg h-96 p-6 rounded-2xl shadow-xl flex flex-col transition-colors duration-300 border border-gray-100 dark:border-gray-800">
                     <div class="flex-grow overflow-y-auto text-lg leading-relaxed text-primary-text mb-4 p-2 custom-scrollbar message-text-content">
@@ -252,7 +245,7 @@ function renderMessages() {
                     </div>
                     <button class="copy-btn w-full py-2 bg-gray-100 dark:bg-gray-700 text-secondary-text rounded-xl hover:text-white transition-all duration-300 font-medium flex items-center justify-center gap-2"
                         data-index="${index}"
-                        style="background-color: var(--primary-color)15; border: 1px solid var(--primary-color); color: var(--primary-color);">
+                        style="background-color: var(--primary-color); border: 1px solid var(--primary-color); color: var(--primary-color);">
                         <i data-lucide="copy" class="w-5 h-5"></i>
                         ${t.copyMessage}
                     </button>
@@ -272,7 +265,7 @@ function renderMessages() {
     scrollToCard(st.currentIndex, false);
 }
 
-function scrollToCard(index, animate = true) {
+export function scrollToCard(index, animate = true) {
     const cardCarousel = getCardCarousel();
     const card = document.getElementById(`msg-card-${index}`);
     if (card) {
@@ -395,7 +388,8 @@ export function toggleMenu() {
     overlayMenu.classList.toggle("hidden", !isClosed);
 }
 
-export function initUIListeners() {
+
+export function initUIListeners(onGenerateCallback) {
     // Menu
     document.getElementById("menu-button")?.addEventListener("click", toggleMenu);
     document.getElementById("overlay-menu")?.addEventListener("click", toggleMenu);
@@ -436,10 +430,8 @@ export function initUIListeners() {
         resetBtn.id = "reset-btn";
         resetBtn.onclick = null; // Clear inline handler
         resetBtn.addEventListener("click", () => {
-            import("./utils.js").then(m => {
-                m.clearAllCookies();
-                location.reload();
-            });
+            clearAllCookies();
+            location.reload();
         });
     }
 
@@ -459,7 +451,9 @@ export function initUIListeners() {
     });
 
     // Generate
-    document.getElementById("generate-button")?.addEventListener("click", generateMessages);
+    if (onGenerateCallback) {
+        document.getElementById("generate-button")?.addEventListener("click", onGenerateCallback);
+    }
 
     // Nav
     document.getElementById("nav-prev")?.addEventListener("click", () => navigateCarousel(-1));

@@ -1,13 +1,15 @@
 import "../css/style.css";
 import { appState } from "./state.js";
 import { updateUI, initUIListeners, scrollToCard } from "./ui.js";
+import { generateMessages } from "./api.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    // console.log("Main loaded");
     // Load settings
     appState.load();
 
-    // Initialize Listeners
-    initUIListeners();
+    // Initialize Listeners with callback
+    initUIListeners(generateMessages);
 
     // Initial UI Render
     updateUI();

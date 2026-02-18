@@ -1,6 +1,5 @@
 import { DEFAULT_SETTINGS, COOKIE_NAME, LANG_CODES } from "./config.js";
 import { setCookie, getCookie } from "./utils.js";
-import { updateUI } from "./ui.js";
 
 // Simple state management
 class StateManager {

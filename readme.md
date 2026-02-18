@@ -1,21 +1,3 @@
-night-message-generator/
-├── index.html          # Main HTML entry point
-├── package.json        # Dependencies and scripts
-├── vite.config.js      # Vite configuration
-├── .env                # Environment variables (API Key)
-├── src/
-│   ├── css/
-│   │   └── style.css   # Styles and themes
-│   └── js/
-│       ├── main.js     # Entry point
-│       ├── api.js      # API logic
-│       ├── ui.js       # UI manipulation
-│       ├── state.js    # State management
-│       ├── utils.js    # Utilities
-│       └── config.js   # Configuration
-├── readme.md           # Project documentation
-├── license             # Project license
-
 # 🌙 Night Message Generator
 
 A beautiful, multilingual web application that generates personalized good night messages using AI. Now powered by **Vite** for a modern development experience and better security.

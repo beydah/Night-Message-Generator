@@ -3,8 +3,9 @@ export const APP_ID =
     typeof __app_id !== "undefined" ? __app_id : "default-message-generator-app";
 
 // --- Configuration ---
-export const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-export const SERVICE_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// API Key is now handled server-side via Netlify Functions proxy.
+// We point to the local function endpoint which is redirected in netlify.toml
+export const SERVICE_ENDPOINT = "/api/generate";
 
 export const COOKIE_NAME = "nightMessageSettings";
 export const LANG_CODES = ["tr", "az", "en", "de", "ru"];

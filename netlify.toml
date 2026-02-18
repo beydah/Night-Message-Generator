@@ -4,3 +4,9 @@
 
 [dev]
   command = "npm run dev"
+
+# Redirect /api/* to Netlify Functions
+[[redirects]]
+  from = "/api/generate"
+  to = "/.netlify/functions/generate"
+  status = 200

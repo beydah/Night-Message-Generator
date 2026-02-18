@@ -50,21 +50,21 @@ A beautiful, multilingual web application that generates personalized good night
    cd night-message-generator
    ```
 
-2. **Install dependencies**:
+2. **Install dependencies** (CRITICAL Step):
    ```bash
    npm install
    ```
 
 3. **Configure Environment Variables**:
-   - The project expects a `.env` file in the root directory. I have created one for you, but for security, ensure it's not committed to public repositories if you push this code.
-   - Content of `.env`:
+   - Create a `.env` file in the root directory.
+   - Add your Gemini API key:
      ```properties
      VITE_GEMINI_API_KEY=your_api_key_here
      ```
 
 ### Running Locally
 
-Start the development server:
+This project uses Vite, so you **must** use the development server. **Do not** simply open `index.html` in your browser.
 
 ```bash
 npm run dev

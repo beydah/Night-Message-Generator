@@ -2,7 +2,7 @@ import "../css/style.css";
 import { appState } from "./state.js";
 import { updateUI, initUIListeners, scrollToCard } from "./ui.js";
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
     // Load settings
     appState.load();
 
@@ -17,4 +17,4 @@ window.onload = () => {
     if (st.messages.length > 0) {
         scrollToCard(st.currentIndex, false);
     }
-};
+});

@@ -12,13 +12,38 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Load Lucide Icons for better UI -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Colors
+            primary: 'var(--primary-color)',
+            shadow: 'var(--shadow-color)',
+
+            // Backgrounds
+            background: 'var(--background)',
+            'card-bg': 'var(--card-bg)',
+
+            // Text
+            'primary-text': 'var(--primary-text)',
+            'secondary-text': 'var(--secondary-text)',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
   <!-- Load custom styles (Handled by Vite in main.js) -->
 </head>
 
-<body class="min-h-screen flex flex-col antialiased">
+<body class="min-h-screen flex flex-col antialiased bg-background text-primary-text transition-colors duration-300">
   <!-- Header -->
   <header
-    class="sticky top-0 z-20 header-enhanced shadow-md transition-colors duration-300 border-b border-gray-200 dark:border-gray-700">
+    class="sticky top-0 z-20 header-enhanced shadow-md transition-colors duration-300 border-b border-gray-200 dark:border-gray-700 bg-card/80 backdrop-blur-md">
     <div class="max-w-4xl mx-auto p-4 flex justify-between items-center h-16">
       <!-- Logo (Centered using flex trickery) -->
       <div class="flex-1 text-center">

@@ -1,438 +1,277 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Night Message Generator</title>
-    <!-- Favicon SVG -->
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>"
-    />
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide Icons for better UI -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Load custom styles -->
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body class="min-h-screen flex flex-col antialiased">
-    <!-- Header -->
-    <header
-      class="sticky top-0 z-20 header-enhanced shadow-md transition-colors duration-300 border-b border-gray-200 dark:border-gray-700"
-    >
-      <div class="max-w-4xl mx-auto p-4 flex justify-between items-center h-16">
-        <!-- Logo (Centered using flex trickery) -->
-        <div class="flex-1 text-center">
-          <h1
-            class="text-xl font-extrabold tracking-tight text-transparent bg-clip-text"
-            style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Night Message Generator</title>
+  <!-- Favicon SVG -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>" />
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load Lucide Icons for better UI -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Load custom styles -->
+  <link rel="stylesheet" href="src/css/style.css" />
+</head>
+
+<body class="min-h-screen flex flex-col antialiased">
+  <!-- Header -->
+  <header
+    class="sticky top-0 z-20 header-enhanced shadow-md transition-colors duration-300 border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-4xl mx-auto p-4 flex justify-between items-center h-16">
+      <!-- Logo (Centered using flex trickery) -->
+      <div class="flex-1 text-center">
+        <h1 class="text-xl font-extrabold tracking-tight text-transparent bg-clip-text" style="
               background-image: linear-gradient(
                 to right,
                 var(--primary-color),
                 var(--shadow-color)
               );
               transition: background-image 0.5s;
-            "
-          >
-            Night Message Generator
-          </h1>
-        </div>
-
-        <!-- Hamburger Menu (Right Aligned) -->
-        <button
-          id="menu-button"
-          class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 z-30"
-          aria-label="Open menu"
-          onclick="toggleMenu()"
-        >
-          <i data-lucide="menu" class="w-6 h-6"></i>
-        </button>
-      </div>
-    </header>
-
-    <!-- Overlay Menu -->
-    <div
-      id="overlay-menu"
-      class="fixed inset-0 menu-overlay-enhanced z-35 hidden"
-      onclick="toggleMenu()"
-    ></div>
-
-    <div
-      id="side-menu"
-      class="fixed top-0 right-0 h-full w-64 menu-enhanced shadow-2xl p-6 z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-between"
-    >
-      <div>
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-xl font-bold">Settings</h2>
-          <button
-            onclick="toggleMenu()"
-            class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <i data-lucide="x" class="w-6 h-6"></i>
-          </button>
-        </div>
-
-        <ul class="space-y-4">
-          <!-- 1. Language Option (Dil Seçeneği) -->
-          <li class="flex justify-between items-center">
-            <span class="text-secondary-text">Language</span>
-            <button
-              id="lang-toggle"
-              class="px-3 py-1 bg-gray-200 dark:bg-gray-600 rounded-full text-sm font-medium transition-colors duration-200"
-              onclick="toggleLanguage()"
-            >
-              TR
-            </button>
-          </li>
-
-          <!-- 2. All Lowercase Option (Tüm Harfler Küçük) -->
-          <li class="flex justify-between items-center">
-            <span id="lowercase-label" class="text-secondary-text"
-              >All Lowercase</span
-            >
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                id="lowercase-toggle"
-                class="sr-only peer"
-                onclick="toggleLowercase()"
-              />
-              <div
-                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-500 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-amber-500"
-                style="background-color: var(--primary-color)"
-                id="lowercase-toggle-bg"
-              ></div>
-            </label>
-          </li>
-
-          <!-- 3. Theme Option (Açık/Koyu Tema) -->
-          <li class="flex justify-between items-center">
-            <span id="theme-label" class="text-secondary-text">Theme</span>
-            <button
-              id="theme-toggle"
-              class="px-3 py-1 bg-gray-200 dark:bg-gray-600 rounded-full text-sm font-medium transition-colors duration-200 flex items-center gap-1"
-              onclick="toggleTheme()"
-            >
-              <i data-lucide="moon" class="w-4 h-4"></i>
-              Dark
-            </button>
-          </li>
-        </ul>
-
-        <div class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <h3 class="text-md font-semibold mb-3">Links</h3>
-          <ul class="space-y-2 text-sm">
-            <!-- 4. Contribute (Katkı Yap) -->
-            <li>
-              <a
-                href="https://github.com/beydah"
-                target="_blank"
-                class="flex items-center gap-2 text-secondary-text hover:text-amber-500 transition-colors duration-200"
-                style="--tw-text-opacity: 1; color: var(--primary-color)"
-              >
-                <i data-lucide="github" class="w-4 h-4"></i>
-                Contribute (GitHub)
-              </a>
-            </li>
-            <!-- 5. Developer (Geliştirici) -->
-            <li>
-              <a
-                href="https://beydahsaglam.com"
-                target="_blank"
-                class="flex items-center gap-2 text-secondary-text hover:text-amber-500 transition-colors duration-200"
-                style="--tw-text-opacity: 1; color: var(--primary-color)"
-              >
-                <i data-lucide="code" class="w-4 h-4"></i>
-                Developer
-              </a>
-            </li>
-          </ul>
-        </div>
+            ">
+          Night Message Generator
+        </h1>
       </div>
 
-      <!-- Cookie Clear Button for Testing -->
-      <button
-        onclick="clearAllCookies(); location.reload();"
-        class="mt-6 w-full text-red-500 hover:text-white border border-red-500 hover:bg-red-600 font-semibold py-2 px-4 rounded-xl transition-all duration-300 text-sm"
-      >
-        Reset Settings (Clear Cookies)
+      <!-- Hamburger Menu (Right Aligned) -->
+      <button id="menu-button"
+        class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 z-30"
+        aria-label="Open menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
     </div>
+  </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow p-4 max-w-4xl mx-auto w-full">
-      <!-- Status/Error Message Box -->
-      <div
-        id="status-message"
-        class="hidden fixed top-20 left-1/2 -translate-x-1/2 p-3 rounded-xl shadow-lg font-medium text-sm z-50 transition-all duration-300 ease-in-out"
-        role="alert"
-      ></div>
+  <!-- Overlay Menu -->
+  <div id="overlay-menu" class="fixed inset-0 menu-overlay-enhanced z-35 hidden"></div>
 
-      <!-- Collapsible Settings Panel -->
-      <div
-        class="mb-6 bg-card-bg p-5 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 transition-colors duration-300"
-      >
-        <button
-          id="settings-toggle"
-          class="flex justify-between items-center w-full focus:outline-none"
-          aria-expanded="true"
-        >
-          <h2 class="text-xl font-bold text-primary-text">
-            Message Settings (5 Levels)
-          </h2>
-          <i
-            data-lucide="chevron-down"
-            class="w-6 h-6 transition-transform duration-300"
-          ></i>
+  <div id="side-menu"
+    class="fixed top-0 right-0 h-full w-64 menu-enhanced shadow-2xl p-6 z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+    <div>
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold">Settings</h2>
+        <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+          <i data-lucide="x" class="w-6 h-6"></i>
         </button>
+      </div>
 
-        <div
-          id="settings-content"
-          class="mt-4 space-y-6 transition-all duration-500 overflow-hidden"
-        >
-          <!-- Setting 1: Length (Uzunluk) -->
-          <div class="setting-item">
-            <label
-              for="length-range"
-              class="block text-sm font-medium mb-2 flex justify-between items-center"
-            >
-              <span id="label-length">Length (Words)</span>
-              <span
-                id="value-length"
-                class="font-bold"
-                style="color: var(--primary-color)"
-                >50</span
-              >
-            </label>
-            <input
-              type="range"
-              id="length-range"
-              min="1"
-              max="10"
-              value="10"
-              oninput="updateSetting('length', this.value)"
-              class="w-full"
-            />
-            <div class="flex justify-between text-xs mt-1 text-secondary-text">
-              <span>5 Words</span>
-              <span>50 Words</span>
-            </div>
+      <ul class="space-y-4">
+        <!-- 1. Language Option (Dil Seçeneği) -->
+        <li class="flex justify-between items-center">
+          <span class="text-secondary-text">Language</span>
+          <button id="lang-toggle"
+            class="px-3 py-1 bg-gray-200 dark:bg-gray-600 rounded-full text-sm font-medium transition-colors duration-200">
+            TR
+          </button>
+        </li>
+
+        <!-- 2. All Lowercase Option (Tüm Harfler Küçük) -->
+        <li class="flex justify-between items-center">
+          <span id="lowercase-label" class="text-secondary-text">All Lowercase</span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="lowercase-toggle" class="sr-only peer" />
+            <div
+              class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-300 dark:peer-focus:ring-amber-500 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-amber-500"
+              style="background-color: var(--primary-color)" id="lowercase-toggle-bg"></div>
+          </label>
+        </li>
+
+        <!-- 3. Theme Option (Açık/Koyu Tema) -->
+        <li class="flex justify-between items-center">
+          <span id="theme-label" class="text-secondary-text">Theme</span>
+          <button id="theme-toggle"
+            class="px-3 py-1 bg-gray-200 dark:bg-gray-600 rounded-full text-sm font-medium transition-colors duration-200 flex items-center gap-1">
+            <i data-lucide="moon" class="w-4 h-4"></i>
+            Dark
+          </button>
+        </li>
+      </ul>
+
+      <div class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <h3 class="text-md font-semibold mb-3">Links</h3>
+        <ul class="space-y-2 text-sm">
+          <!-- 4. Contribute (Katkı Yap) -->
+          <li>
+            <a href="https://github.com/beydah" target="_blank"
+              class="flex items-center gap-2 text-secondary-text hover:text-amber-500 transition-colors duration-200"
+              style="--tw-text-opacity: 1; color: var(--primary-color)">
+              <i data-lucide="github" class="w-4 h-4"></i>
+              Contribute (GitHub)
+            </a>
+          </li>
+          <!-- 5. Developer (Geliştirici) -->
+          <li>
+            <a href="https://beydahsaglam.com" target="_blank"
+              class="flex items-center gap-2 text-secondary-text hover:text-amber-500 transition-colors duration-200"
+              style="--tw-text-opacity: 1; color: var(--primary-color)">
+              <i data-lucide="code" class="w-4 h-4"></i>
+              Developer
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cookie Clear Button for Testing -->
+    <button onclick="clearAllCookies(); location.reload();"
+      class="mt-6 w-full text-red-500 hover:text-white border border-red-500 hover:bg-red-600 font-semibold py-2 px-4 rounded-xl transition-all duration-300 text-sm">
+      Reset Settings (Clear Cookies)
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-grow p-4 max-w-4xl mx-auto w-full">
+    <!-- Status/Error Message Box -->
+    <div id="status-message"
+      class="hidden fixed top-20 left-1/2 -translate-x-1/2 p-3 rounded-xl shadow-lg font-medium text-sm z-50 transition-all duration-300 ease-in-out"
+      role="alert"></div>
+
+    <!-- Collapsible Settings Panel -->
+    <div
+      class="mb-6 bg-card-bg p-5 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+      <button id="settings-toggle" class="flex justify-between items-center w-full focus:outline-none"
+        aria-expanded="true">
+        <h2 class="text-xl font-bold text-primary-text">
+          Message Settings (5 Levels)
+        </h2>
+        <i data-lucide="chevron-down" class="w-6 h-6 transition-transform duration-300"></i>
+      </button>
+
+      <div id="settings-content" class="mt-4 space-y-6 transition-all duration-500 overflow-hidden">
+        <!-- Setting 1: Length (Uzunluk) -->
+        <div class="setting-item">
+          <label for="length-range" class="block text-sm font-medium mb-2 flex justify-between items-center">
+            <span id="label-length">Length (Words)</span>
+            <span id="value-length" class="font-bold" style="color: var(--primary-color)">50</span>
+          </label>
+          <input type="range" id="length-range" min="1" max="10" value="10" class="w-full" />
+          <div class="flex justify-between text-xs mt-1 text-secondary-text">
+            <span>5 Words</span>
+            <span>50 Words</span>
           </div>
+        </div>
 
-          <!-- Setting 2: Sincerity (Samimiyet) - RANGE 1-10 -->
-          <div class="setting-item">
-            <label
-              for="sincerity-range"
-              class="block text-sm font-medium mb-2 flex justify-between items-center"
-            >
-              <span id="label-sincerity">Sincerity (Tone)</span>
-              <span
-                id="value-sincerity"
-                class="font-bold"
-                style="color: var(--primary-color)"
-                >Derin ve Yoğun (10/10)</span
-              >
-            </label>
-            <input
-              type="range"
-              id="sincerity-range"
-              min="1"
-              max="10"
-              value="10"
-              oninput="updateSetting('sincerity', this.value)"
-              class="w-full"
-            />
-            <div class="flex justify-between text-xs mt-1 text-secondary-text">
-              <span>Formal (1/10)</span>
-              <span>Warm (10/10)</span>
-            </div>
+        <!-- Setting 2: Sincerity (Samimiyet) - RANGE 1-10 -->
+        <div class="setting-item">
+          <label for="sincerity-range" class="block text-sm font-medium mb-2 flex justify-between items-center">
+            <span id="label-sincerity">Sincerity (Tone)</span>
+            <span id="value-sincerity" class="font-bold" style="color: var(--primary-color)">Derin ve Yoğun
+              (10/10)</span>
+          </label>
+          <input type="range" id="sincerity-range" min="1" max="10" value="10" class="w-full" />
+          <div class="flex justify-between text-xs mt-1 text-secondary-text">
+            <span>Formal (1/10)</span>
+            <span>Warm (10/10)</span>
           </div>
+        </div>
 
-          <!-- Setting 3: Misspelling (Yanlış Yazım) - RANGE 1-10 -->
-          <div class="setting-item">
-            <label
-              for="misspelling-range"
-              class="block text-sm font-medium mb-2 flex justify-between items-center"
-            >
-              <span id="label-misspelling">Intentional Misspelling</span>
-              <span
-                id="value-misspelling"
-                class="font-bold"
-                style="color: var(--primary-color)"
-                >Fark Edilebilir (5/10)</span
-              >
-            </label>
-            <input
-              type="range"
-              id="misspelling-range"
-              min="1"
-              max="10"
-              value="5"
-              oninput="updateSetting('misspelling', this.value)"
-              class="w-full"
-            />
-            <div class="flex justify-between text-xs mt-1 text-secondary-text">
-              <span>Correct (1/10)</span>
-              <span>Maximum (10/10)</span>
-            </div>
+        <!-- Setting 3: Misspelling (Yanlış Yazım) - RANGE 1-10 -->
+        <div class="setting-item">
+          <label for="misspelling-range" class="block text-sm font-medium mb-2 flex justify-between items-center">
+            <span id="label-misspelling">Intentional Misspelling</span>
+            <span id="value-misspelling" class="font-bold" style="color: var(--primary-color)">Fark Edilebilir
+              (5/10)</span>
+          </label>
+          <input type="range" id="misspelling-range" min="1" max="10" value="5" class="w-full" />
+          <div class="flex justify-between text-xs mt-1 text-secondary-text">
+            <span>Correct (1/10)</span>
+            <span>Maximum (10/10)</span>
           </div>
+        </div>
 
-          <!-- Setting 4: Emoji (Emoji) -->
-          <div class="setting-item">
-            <label
-              for="emoji-range"
-              class="block text-sm font-medium mb-2 flex justify-between items-center"
-            >
-              <span id="label-emoji">Emoji Usage (0-10)</span>
-              <span
-                id="value-emoji"
-                class="font-bold"
-                style="color: var(--primary-color)"
-                >5</span
-              >
-            </label>
-            <input
-              type="range"
-              id="emoji-range"
-              min="0"
-              max="10"
-              value="5"
-              oninput="updateSetting('emoji', this.value)"
-              class="w-full"
-            />
-            <div class="flex justify-between text-xs mt-1 text-secondary-text">
-              <span>0</span>
-              <span>10</span>
-            </div>
+        <!-- Setting 4: Emoji (Emoji) -->
+        <div class="setting-item">
+          <label for="emoji-range" class="block text-sm font-medium mb-2 flex justify-between items-center">
+            <span id="label-emoji">Emoji Usage (0-10)</span>
+            <span id="value-emoji" class="font-bold" style="color: var(--primary-color)">5</span>
+          </label>
+          <input type="range" id="emoji-range" min="0" max="10" value="5" class="w-full" />
+          <div class="flex justify-between text-xs mt-1 text-secondary-text">
+            <span>0</span>
+            <span>10</span>
           </div>
+        </div>
 
-          <!-- Setting 5: Punctuation (Noktalama İşareti) -->
-          <div class="setting-item">
-            <label
-              for="punctuation-range"
-              class="block text-sm font-medium mb-2 flex justify-between items-center"
-            >
-              <span id="label-punctuation">Punctuation Intensity (0-10)</span>
-              <span
-                id="value-punctuation"
-                class="font-bold"
-                style="color: var(--primary-color)"
-                >0</span
-              >
-            </label>
-            <input
-              type="range"
-              id="punctuation-range"
-              min="0"
-              max="10"
-              value="0"
-              oninput="updateSetting('punctuation', this.value)"
-              class="w-full"
-            />
-            <div class="flex justify-between text-xs mt-1 text-secondary-text">
-              <span>0 (Minimal)</span>
-              <span>10 (Max)</span>
-            </div>
+        <!-- Setting 5: Punctuation (Noktalama İşareti) -->
+        <div class="setting-item">
+          <label for="punctuation-range" class="block text-sm font-medium mb-2 flex justify-between items-center">
+            <span id="label-punctuation">Punctuation Intensity (0-10)</span>
+            <span id="value-punctuation" class="font-bold" style="color: var(--primary-color)">0</span>
+          </label>
+          <input type="range" id="punctuation-range" min="0" max="10" value="0" class="w-full" />
+          <div class="flex justify-between text-xs mt-1 text-secondary-text">
+            <span>0 (Minimal)</span>
+            <span>10 (Max)</span>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Generate Button - uses dynamic color -->
-      <button
-        id="generate-button"
-        onclick="generateMessages()"
-        class="w-full py-3 text-white font-bold rounded-xl shadow-lg hover:brightness-110 transition-all duration-300 flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:shadow-none"
-        style="
+    <!-- Generate Button - uses dynamic color -->
+    <button id="generate-button"
+      class="w-full py-3 text-white font-bold rounded-xl shadow-lg hover:brightness-110 transition-all duration-300 flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:shadow-none"
+      style="
           background-color: var(--primary-color);
           box-shadow: 0 10px 15px -3px var(--shadow-color) 77,
             0 4px 6px -4px var(--shadow-color) 77;
-        "
-      >
-        <i data-lucide="sparkles" class="w-5 h-5"></i>
-        Generate 5 Night Messages
-      </button>
+        ">
+      <i data-lucide="sparkles" class="w-5 h-5"></i>
+      Generate 5 Night Messages
+    </button>
 
-      <!-- Message Carousel -->
-      <div id="message-area" class="mt-8">
-        <h2
-          id="card-header"
-          class="text-lg font-semibold mb-3 text-center transition-opacity duration-300"
-        >
-          Generated Messages (<span id="current-card-index">0</span>/<span
-            id="total-cards"
-            >0</span
-          >)
-        </h2>
-        <div class="relative">
-          <!-- Placeholder when no messages are loaded/generated -->
-          <div id="message-placeholder" class="w-full">
-            <div
-              class="bg-card-bg h-96 p-6 rounded-2xl shadow-xl flex flex-col justify-center items-center text-center border-2 border-dashed border-gray-300 dark:border-gray-700"
-            >
-              <i
-                data-lucide="moon"
-                class="w-10 h-10 mb-4"
-                style="color: var(--primary-color)"
-              ></i>
-              <p class="text-secondary-text">
-                Hit the "Generate" button above to create personalized night
-                messages based on your settings.
-              </p>
-            </div>
-          </div>
-
+    <!-- Message Carousel -->
+    <div id="message-area" class="mt-8">
+      <h2 id="card-header" class="text-lg font-semibold mb-3 text-center transition-opacity duration-300">
+        Generated Messages (<span id="current-card-index">0</span>/<span id="total-cards">0</span>)
+      </h2>
+      <div class="relative">
+        <!-- Placeholder when no messages are loaded/generated -->
+        <div id="message-placeholder" class="w-full">
           <div
-            id="card-carousel"
-            class="card-container overflow-x-hidden hidden"
-          >
-            <!-- Cards will be injected here -->
+            class="bg-card-bg h-96 p-6 rounded-2xl shadow-xl flex flex-col justify-center items-center text-center border-2 border-dashed border-gray-300 dark:border-gray-700">
+            <i data-lucide="moon" class="w-10 h-10 mb-4" style="color: var(--primary-color)"></i>
+            <p class="text-secondary-text">
+              Hit the "Generate" button above to create personalized night
+              messages based on your settings.
+            </p>
           </div>
-
-          <!-- Navigation Buttons for Looping (Visible on all screens) -->
-          <button
-            id="nav-prev"
-            onclick="navigateCarousel(-1)"
-            class="absolute -left-2 top-1/2 -translate-y-1/2 p-2 bg-card-bg/70 dark:bg-card-bg/70 backdrop-blur-sm rounded-full shadow-lg hover:bg-card-bg transition-all duration-200 z-10 disabled:opacity-0"
-            aria-label="Previous Message"
-          >
-            <i data-lucide="chevron-left" class="w-6 h-6 text-primary-text"></i>
-          </button>
-          <button
-            id="nav-next"
-            onclick="navigateCarousel(1)"
-            class="absolute -right-2 top-1/2 -translate-y-1/2 p-2 bg-card-bg/70 dark:bg-card-bg/70 backdrop-blur-sm rounded-full shadow-lg hover:bg-card-bg transition-all duration-200 z-10 disabled:opacity-0"
-            aria-label="Next Message"
-          >
-            <i
-              data-lucide="chevron-right"
-              class="w-6 h-6 text-primary-text"
-            ></i>
-          </button>
         </div>
+
+        <div id="card-carousel" class="card-container overflow-x-hidden hidden">
+          <!-- Cards will be injected here -->
+        </div>
+
+        <!-- Navigation Buttons for Looping (Visible on all screens) -->
+        <button id="nav-prev"
+          class="absolute -left-2 top-1/2 -translate-y-1/2 p-2 bg-card-bg/70 dark:bg-card-bg/70 backdrop-blur-sm rounded-full shadow-lg hover:bg-card-bg transition-all duration-200 z-10 disabled:opacity-0"
+          aria-label="Previous Message">
+          <i data-lucide="chevron-left" class="w-6 h-6 text-primary-text"></i>
+        </button>
+        <button id="nav-next"
+          class="absolute -right-2 top-1/2 -translate-y-1/2 p-2 bg-card-bg/70 dark:bg-card-bg/70 backdrop-blur-sm rounded-full shadow-lg hover:bg-card-bg transition-all duration-200 z-10 disabled:opacity-0"
+          aria-label="Next Message">
+          <i data-lucide="chevron-right" class="w-6 h-6 text-primary-text"></i>
+        </button>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <!-- Footer -->
-    <footer
-      class="mt-auto py-4 text-center border-t border-gray-200 dark:border-gray-800 transition-colors duration-300"
-    >
-      <p class="text-sm text-secondary-text">
-        Developed by
-        <a
-          href="https://beydahsaglam.com"
-          target="_blank"
-          class="hover:underline font-medium transition-colors duration-200"
-          style="color: var(--primary-color)"
-        >
-          Beydah Saglam
-        </a>
-        for World
-      </p>
-    </footer>
+  <!-- Footer -->
+  <footer class="mt-auto py-4 text-center border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+    <p class="text-sm text-secondary-text">
+      Developed by
+      <a href="https://beydahsaglam.com" target="_blank"
+        class="hover:underline font-medium transition-colors duration-200" style="color: var(--primary-color)">
+        Beydah Saglam
+      </a>
+      for World
+    </p>
+  </footer>
 
-    <!-- Load JavaScript -->
-    <script src="script.js"></script>
-  </body>
+  <!-- Load JavaScript -->
+  <script type="module" src="src/js/main.js"></script>
+</body>
+
 </html>
-

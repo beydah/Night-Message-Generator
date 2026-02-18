@@ -87,7 +87,7 @@ The project has been migrated to a standardized Vite structure:
 
 ## 📝 License
 
-Distributed under the MIT License. See `license` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📞 Contact
 

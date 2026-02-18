@@ -1,10 +1,11 @@
 //#region Netlify Function: Generate
 
 // ESM syntax
-// Check both standard naming and VITE_ prefixed naming to be robust against user configuration
+// Check both standard naming and VITE_ prefixed naming
 const API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 
-const BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+// Updated to use the current stable model for 2026: gemini-2.5-flash
+const BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
 //#region F_Handler
 export const handler = async (p_event, p_context) => {
@@ -42,7 +43,10 @@ export const handler = async (p_event, p_context) => {
 
         const data = await response.json();
 
+        // Check if the model is also not found (just in case 2.5 is not available to this key/region)
+        // If 404, we might want to suggest checking available models, but keeping the error raw is okay for now.
         if (!response.ok) {
+            console.error("Gemini API Error:", data);
             return {
                 statusCode: response.status,
                 body: JSON.stringify(data),

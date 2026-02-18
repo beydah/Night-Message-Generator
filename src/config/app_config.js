@@ -1,3 +1,4 @@
+//#region Constants
 export const APP_ID =
     typeof __app_id !== "undefined" ? __app_id : "default-message-generator-app";
 
@@ -25,3 +26,4 @@ export const DEFAULT_SETTINGS = {
     messages: [],
     currentIndex: 0,
 };
+//#endregion

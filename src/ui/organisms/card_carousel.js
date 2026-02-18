@@ -123,7 +123,7 @@ export function F_Render_Messages() {
                     </div>
                     <button class="copy-btn w-full py-2 bg-gray-100 dark:bg-gray-700 text-secondary-text rounded-xl hover:text-white transition-all duration-300 font-medium flex items-center justify-center gap-2"
                         data-index="${index}"
-                        style="background-color: var(--primary-color); border: 1px solid var(--primary-color); color: var(--primary-color);">
+                        style="background-color: var(--primary-color); border: 1px solid var(--primary-color); color: #ffffff;">
                         <i data-lucide="copy" class="w-5 h-5"></i>
                         ${t.copyMessage}
                     </button>

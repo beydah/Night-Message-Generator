@@ -1,10 +1,13 @@
 //#region Netlify Function: Generate
 
-const API_KEY = process.env.GEMINI_API_KEY;
-const SERVICE_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// ESM syntax
+// Check both standard naming and VITE_ prefixed naming to be robust against user configuration
+const API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+
+const BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
 //#region F_Handler
-exports.handler = async function (p_event, p_context) {
+export const handler = async (p_event, p_context) => {
     // Only allow POST
     if (p_event.httpMethod !== "POST") {
         return {
@@ -13,15 +16,23 @@ exports.handler = async function (p_event, p_context) {
         };
     }
 
+    // Check for API Key at runtime
     if (!API_KEY) {
+        console.error("CRITICAL ERROR: API Key (GEMINI_API_KEY or VITE_GEMINI_API_KEY) is missing from environment variables.");
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: { message: "Server configuration error: API Key missing." } }),
+            body: JSON.stringify({
+                error: {
+                    message: "Server configuration error: GEMINI_API_KEY is missing. Please set it in Netlify Site Settings > Environment Variables and REDEPLOY."
+                }
+            }),
         };
     }
 
+    const service_endpoint = `${BASE_URL}?key=${API_KEY}`;
+
     try {
-        const response = await fetch(SERVICE_ENDPOINT, {
+        const response = await fetch(service_endpoint, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +57,7 @@ exports.handler = async function (p_event, p_context) {
             body: JSON.stringify(data),
         };
     } catch (error) {
-        console.error("Proxy Error:", error);
+        console.error("Proxy Request Failed:", error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: { message: "Internal Server Error during proxy request." } }),

@@ -1,3 +1,4 @@
+import "../css/style.css";
 import { appState } from "./state.js";
 import { updateUI, initUIListeners, scrollToCard } from "./ui.js";
 

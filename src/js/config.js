@@ -1,15 +1,9 @@
 export const APP_ID =
     typeof __app_id !== "undefined" ? __app_id : "default-message-generator-app";
 
-// Obfuscated service configuration
-const _0x7f3a = "QUl6YVN5RGFQbzMzMlhqNU5BanAtNDl3S3l4WS05N3czU25zcmxV";
-export const AUTH_CONFIG = (() => {
-    try {
-        return atob(_0x7f3a);
-    } catch (e) {
-        return "";
-    }
-})();
+// --- Configuration ---
+export const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
+export const SERVICE_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 export const COOKIE_NAME = "nightMessageSettings";
 export const LANG_CODES = ["tr", "az", "en", "de", "ru"];

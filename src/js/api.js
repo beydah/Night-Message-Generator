@@ -1,4 +1,4 @@
-import { AUTH_CONFIG } from "./config.js";
+import { SERVICE_ENDPOINT } from "./config.js";
 import { appState } from "./state.js";
 import { TRANSLATIONS } from "./i18n.js";
 import { updateUI, showStatusMessage, setGeneratingState } from "./ui.js";
@@ -90,13 +90,12 @@ export async function generateMessages() {
         },
     };
 
-    const _serviceEndpoint = `https://generativelanguage.google${""}${"a"}${"p"}${"i"}s.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${AUTH_CONFIG}`;
     const MAX_RETRIES = 3;
     let response;
 
     try {
         for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-            response = await fetch(_serviceEndpoint, {
+            response = await fetch(SERVICE_ENDPOINT, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
